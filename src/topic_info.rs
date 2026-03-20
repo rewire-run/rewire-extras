@@ -3,40 +3,27 @@ use rerun::components::Text;
 
 /// Custom archetype for ROS 2 topic metadata.
 ///
-/// Logged statically at `/rewire/topics/{topic_name}` by the bridge when a topic is subscribed.
-/// Queried by the custom Topics SpaceView in the rewire viewer.
+/// Logged at `/rewire/topics` as a batch — each field is a column with one entry per topic.
+/// Re-logged whenever the set of subscribed topics changes.
 pub struct ROS2TopicInfo {
-    topic_name: Option<SerializedComponentBatch>,
-    type_name: Option<SerializedComponentBatch>,
-    status: Option<SerializedComponentBatch>,
+    topic_names: Option<SerializedComponentBatch>,
+    type_names: Option<SerializedComponentBatch>,
+    statuses: Option<SerializedComponentBatch>,
 }
 
 impl ROS2TopicInfo {
-    /// Creates a new topic info with status "active".
-    pub fn new(topic_name: &str, type_name: &str) -> Self {
-        Self {
-            topic_name: try_serialize_field::<Text>(
-                Self::descriptor_topic_name(),
-                [Text::from(topic_name)],
-            ),
-            type_name: try_serialize_field::<Text>(
-                Self::descriptor_type_name(),
-                [Text::from(type_name)],
-            ),
-            status: try_serialize_field::<Text>(
-                Self::descriptor_status(),
-                [Text::from("active")],
-            ),
-        }
-    }
+    /// Creates topic info from parallel slices of topic names and type names.
+    /// All topics default to "active" status.
+    pub fn new(topics: &[(&str, &str)]) -> Self {
+        let names: Vec<Text> = topics.iter().map(|(n, _)| Text::from(*n)).collect();
+        let types: Vec<Text> = topics.iter().map(|(_, t)| Text::from(*t)).collect();
+        let statuses: Vec<Text> = topics.iter().map(|_| Text::from("active")).collect();
 
-    /// Overrides the status field.
-    pub fn with_status(mut self, status: &str) -> Self {
-        self.status = try_serialize_field::<Text>(
-            Self::descriptor_status(),
-            [Text::from(status)],
-        );
-        self
+        Self {
+            topic_names: try_serialize_field::<Text>(Self::descriptor_topic_name(), names),
+            type_names: try_serialize_field::<Text>(Self::descriptor_type_name(), types),
+            statuses: try_serialize_field::<Text>(Self::descriptor_status(), statuses),
+        }
     }
 
     /// Descriptor for the topic_name component.
@@ -60,7 +47,7 @@ impl ROS2TopicInfo {
 
 impl AsComponents for ROS2TopicInfo {
     fn as_serialized_batches(&self) -> Vec<SerializedComponentBatch> {
-        [&self.topic_name, &self.type_name, &self.status]
+        [&self.topic_names, &self.type_names, &self.statuses]
             .into_iter()
             .flatten()
             .cloned()
