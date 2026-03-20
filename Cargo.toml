@@ -1,0 +1,8 @@
+[package]
+name = "rewire-extras"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+re_types_core = "0.30"
+rerun = "0.30"
