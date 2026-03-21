@@ -1,4 +1,6 @@
-use re_types_core::{AsComponents, ComponentDescriptor, SerializedComponentBatch, try_serialize_field};
+use re_types_core::{
+    try_serialize_field, AsComponents, ComponentDescriptor, SerializedComponentBatch,
+};
 use rerun::components::Text;
 
 /// Custom archetype for ROS 2 node metadata.
@@ -23,14 +25,23 @@ pub struct NodeMeta<'a> {
 impl ROS2NodeInfo {
     pub fn new(nodes: &[NodeMeta<'_>]) -> Self {
         let names: Vec<Text> = nodes.iter().map(|n| Text::from(n.name)).collect();
-        let pubs: Vec<Text> = nodes.iter().map(|n| Text::from(n.publisher_count.to_string())).collect();
-        let subs: Vec<Text> = nodes.iter().map(|n| Text::from(n.subscriber_count.to_string())).collect();
+        let pubs: Vec<Text> = nodes
+            .iter()
+            .map(|n| Text::from(n.publisher_count.to_string()))
+            .collect();
+        let subs: Vec<Text> = nodes
+            .iter()
+            .map(|n| Text::from(n.subscriber_count.to_string()))
+            .collect();
         let transports: Vec<Text> = nodes.iter().map(|n| Text::from(n.transport)).collect();
 
         Self {
             node_names: try_serialize_field::<Text>(Self::descriptor_node_name(), names),
             publisher_counts: try_serialize_field::<Text>(Self::descriptor_publisher_count(), pubs),
-            subscriber_counts: try_serialize_field::<Text>(Self::descriptor_subscriber_count(), subs),
+            subscriber_counts: try_serialize_field::<Text>(
+                Self::descriptor_subscriber_count(),
+                subs,
+            ),
             transports: try_serialize_field::<Text>(Self::descriptor_transport(), transports),
         }
     }

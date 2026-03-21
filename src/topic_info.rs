@@ -1,4 +1,6 @@
-use re_types_core::{AsComponents, ComponentDescriptor, SerializedComponentBatch, try_serialize_field};
+use re_types_core::{
+    try_serialize_field, AsComponents, ComponentDescriptor, SerializedComponentBatch,
+};
 use rerun::components::Text;
 
 /// Custom archetype for ROS 2 topic metadata.
@@ -24,14 +26,23 @@ impl ROS2TopicInfo {
     pub fn new(topics: &[TopicMeta<'_>]) -> Self {
         let names: Vec<Text> = topics.iter().map(|t| Text::from(t.name)).collect();
         let types: Vec<Text> = topics.iter().map(|t| Text::from(t.type_name)).collect();
-        let pubs: Vec<Text> = topics.iter().map(|t| Text::from(t.publishers.to_string())).collect();
-        let subs: Vec<Text> = topics.iter().map(|t| Text::from(t.subscribers.to_string())).collect();
+        let pubs: Vec<Text> = topics
+            .iter()
+            .map(|t| Text::from(t.publishers.to_string()))
+            .collect();
+        let subs: Vec<Text> = topics
+            .iter()
+            .map(|t| Text::from(t.subscribers.to_string()))
+            .collect();
 
         Self {
             topic_names: try_serialize_field::<Text>(Self::descriptor_topic_name(), names),
             type_names: try_serialize_field::<Text>(Self::descriptor_type_name(), types),
             publisher_counts: try_serialize_field::<Text>(Self::descriptor_publisher_count(), pubs),
-            subscriber_counts: try_serialize_field::<Text>(Self::descriptor_subscriber_count(), subs),
+            subscriber_counts: try_serialize_field::<Text>(
+                Self::descriptor_subscriber_count(),
+                subs,
+            ),
         }
     }
 

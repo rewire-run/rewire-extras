@@ -41,7 +41,8 @@ impl HeartbeatTracker {
 
     fn prune(&mut self) {
         let staleness = self.staleness;
-        self.bridges.retain(|_, last_seen| last_seen.elapsed() < staleness);
+        self.bridges
+            .retain(|_, last_seen| last_seen.elapsed() < staleness);
     }
 }
 
