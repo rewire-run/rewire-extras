@@ -1,7 +1,7 @@
 use re_types_core::{
     try_serialize_field, AsComponents, ComponentDescriptor, SerializedComponentBatch,
 };
-use rerun::components::Text;
+use re_sdk_types::components::Text;
 
 /// Custom Rerun archetype for ROS 2 node metadata.
 ///

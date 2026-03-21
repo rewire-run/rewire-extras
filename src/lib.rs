@@ -31,4 +31,5 @@ pub use node_info::{NodeMeta, ROS2NodeInfo};
 pub use topic_info::{ROS2TopicInfo, TopicMeta};
 
 /// Generated gRPC service definitions for viewer–bridge communication.
+#[cfg(feature = "grpc")]
 pub mod proto;

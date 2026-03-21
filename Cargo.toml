@@ -10,12 +10,14 @@ repository = "https://github.com/rewire-run/rewire-extras"
 
 [dependencies]
 prost = "0.14"
+re_sdk_types = "0.30"
 re_types_core = "0.30"
-rerun = "0.30"
-tonic = "0.14"
-tonic-prost = "0.14"
+tonic = { version = "0.14", optional = true }
+tonic-prost = { version = "0.14", optional = true }
 
 [features]
+default = ["grpc"]
+grpc = ["dep:tonic", "dep:tonic-prost"]
 codegen = ["dep:tonic-prost-build"]
 
 [dependencies.tonic-prost-build]
