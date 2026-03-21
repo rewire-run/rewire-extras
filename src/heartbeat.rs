@@ -5,8 +5,23 @@ const DEFAULT_STALENESS: Duration = Duration::from_secs(5);
 
 /// Tracks heartbeats from connected bridge instances.
 ///
-/// Each bridge sends periodic beats identified by a unique ID. The tracker
-/// prunes stale entries and reports connection status.
+/// Each bridge sends periodic beats identified by a unique string ID.
+/// The tracker automatically prunes stale entries when queried for status,
+/// using a configurable staleness threshold (default: 5 seconds).
+///
+/// # Example
+///
+/// ```
+/// use rewire_extras::HeartbeatTracker;
+///
+/// let mut tracker = HeartbeatTracker::default();
+/// assert_eq!(tracker.status(), (false, 0));
+///
+/// tracker.beat("bridge-001");
+/// let (connected, count) = tracker.status();
+/// assert!(connected);
+/// assert_eq!(count, 1);
+/// ```
 pub struct HeartbeatTracker {
     bridges: HashMap<String, Instant>,
     staleness: Duration,
@@ -22,6 +37,10 @@ impl Default for HeartbeatTracker {
 }
 
 impl HeartbeatTracker {
+    /// Creates a tracker with a custom staleness threshold.
+    ///
+    /// Bridges that haven't sent a beat within this duration are considered
+    /// disconnected and pruned on the next [`status`](Self::status) call.
     pub fn with_staleness(staleness: Duration) -> Self {
         Self {
             bridges: HashMap::new(),
@@ -29,10 +48,19 @@ impl HeartbeatTracker {
         }
     }
 
+    /// Records a heartbeat from the given bridge.
+    ///
+    /// If the bridge already exists, its timestamp is updated. Otherwise a
+    /// new entry is created.
     pub fn beat(&mut self, bridge_id: &str) {
         self.bridges.insert(bridge_id.to_owned(), Instant::now());
     }
 
+    /// Returns `(connected, bridge_count)` after pruning stale entries.
+    ///
+    /// A bridge is considered connected if its last beat is within the
+    /// staleness threshold. `connected` is `true` when at least one bridge
+    /// is alive.
     pub fn status(&mut self) -> (bool, usize) {
         self.prune();
         let count = self.bridges.len();
@@ -117,5 +145,11 @@ mod tests {
         assert_eq!(tracker.status().1, 0);
         tracker.beat("bridge-a");
         assert_eq!(tracker.status().1, 1);
+    }
+
+    #[test]
+    fn default_staleness_is_five_seconds() {
+        let tracker = HeartbeatTracker::default();
+        assert_eq!(tracker.staleness, Duration::from_secs(5));
     }
 }
