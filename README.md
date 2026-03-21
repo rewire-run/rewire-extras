@@ -40,11 +40,6 @@ Or with [pixi](https://pixi.sh):
 pixi run sanity   # check + fmt + lint + test
 ```
 
-## Dependencies
-
-- [rerun](https://github.com/rerun-io/rerun) v0.30 — visualization framework
-- [re_types_core](https://github.com/rerun-io/rerun) v0.30 — component serialization
-
 ## License
 
 Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) for details.
