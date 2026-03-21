@@ -76,13 +76,7 @@ impl ROS2DiagnosticsInfo {
             .collect();
         let latency: Vec<Text> = metrics
             .iter()
-            .map(|m| {
-                Text::from(
-                    m.latency_ms
-                        .map(|v| format!("{v:.1}"))
-                        .unwrap_or_default(),
-                )
-            })
+            .map(|m| Text::from(m.latency_ms.map(|v| format!("{v:.1}")).unwrap_or_default()))
             .collect();
 
         Self {
