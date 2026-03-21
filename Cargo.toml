@@ -1,6 +1,6 @@
 [package]
 name = "rewire-extras"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 license = "Apache-2.0"
 description = "Shared Rerun archetypes and types for the Rewire ROS 2 ecosystem"
@@ -9,5 +9,20 @@ categories = ["science::robotics", "visualization"]
 repository = "https://github.com/rewire-run/rewire-extras"
 
 [dependencies]
+prost = "0.14"
 re_types_core = "0.30"
 rerun = "0.30"
+tonic = "0.14"
+tonic-prost = "0.14"
+
+[features]
+codegen = ["dep:tonic-prost-build"]
+
+[dependencies.tonic-prost-build]
+version = "0.14"
+optional = true
+
+[[bin]]
+name = "generate-proto"
+path = "generate_proto.rs"
+required-features = ["codegen"]

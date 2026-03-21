@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package rewire.v1;
+
+service RewireService {
+  rpc GetInfo(GetInfoRequest) returns (GetInfoResponse);
+  rpc Heartbeat(HeartbeatRequest) returns (HeartbeatResponse);
+}
+
+message GetInfoRequest {}
+
+message GetInfoResponse {
+  string viewer = 1;
+  string version = 2;
+}
+
+message HeartbeatRequest {
+  string bridge_id = 1;
+}
+
+message HeartbeatResponse {}

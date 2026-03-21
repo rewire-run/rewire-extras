@@ -15,6 +15,10 @@
 //! # Heartbeat
 //!
 //! - [`HeartbeatTracker`] — tracks bridge connection status via timestamped beats
+//!
+//! # gRPC
+//!
+//! - [`proto`] — generated gRPC service definitions for viewer–bridge communication
 
 mod diagnostics_info;
 mod heartbeat;
@@ -25,3 +29,6 @@ pub use diagnostics_info::{DiagnosticsMeta, ROS2DiagnosticsInfo};
 pub use heartbeat::HeartbeatTracker;
 pub use node_info::{NodeMeta, ROS2NodeInfo};
 pub use topic_info::{ROS2TopicInfo, TopicMeta};
+
+/// Generated gRPC service definitions for viewer–bridge communication.
+pub mod proto;
