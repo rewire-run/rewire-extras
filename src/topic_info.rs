@@ -37,18 +37,22 @@ impl ROS2TopicInfo {
 
     pub fn descriptor_topic_name() -> ComponentDescriptor {
         ComponentDescriptor::partial("rewire.ROS2TopicInfo:topic_name")
+            .with_archetype("rewire.ROS2TopicInfo".into())
     }
 
     pub fn descriptor_type_name() -> ComponentDescriptor {
         ComponentDescriptor::partial("rewire.ROS2TopicInfo:type_name")
+            .with_archetype("rewire.ROS2TopicInfo".into())
     }
 
     pub fn descriptor_publisher_count() -> ComponentDescriptor {
         ComponentDescriptor::partial("rewire.ROS2TopicInfo:publisher_count")
+            .with_archetype("rewire.ROS2TopicInfo".into())
     }
 
     pub fn descriptor_subscriber_count() -> ComponentDescriptor {
         ComponentDescriptor::partial("rewire.ROS2TopicInfo:subscriber_count")
+            .with_archetype("rewire.ROS2TopicInfo".into())
     }
 }
 
