@@ -3,6 +3,10 @@ name = "rewire-extras"
 version = "0.1.0"
 edition = "2021"
 license = "Apache-2.0"
+description = "Shared Rerun archetypes and types for the Rewire ROS 2 ecosystem"
+keywords = ["ros2", "rerun", "robotics", "visualization", "rewire"]
+categories = ["science::robotics", "visualization"]
+repository = "https://github.com/rewire-run/rewire-extras"
 
 [dependencies]
 re_types_core = "0.30"
