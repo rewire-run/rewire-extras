@@ -1,6 +1,6 @@
 [package]
 name = "rewire-extras"
-version = "0.1.2"
+version = "0.1.4"
 edition = "2021"
 license = "Apache-2.0"
 description = "Shared Rerun archetypes and types for the Rewire ROS 2 ecosystem"
