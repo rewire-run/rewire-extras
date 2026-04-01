@@ -12,9 +12,40 @@ pub struct GetInfoResponse {
 pub struct HeartbeatRequest {
     #[prost(string, tag = "1")]
     pub bridge_id: ::prost::alloc::string::String,
+    #[prost(enumeration = "BridgeState", tag = "2")]
+    pub state: i32,
 }
 #[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct HeartbeatResponse {}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum BridgeState {
+    Unspecified = 0,
+    Idle = 1,
+    Active = 2,
+}
+impl BridgeState {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::Unspecified => "BRIDGE_STATE_UNSPECIFIED",
+            Self::Idle => "BRIDGE_STATE_IDLE",
+            Self::Active => "BRIDGE_STATE_ACTIVE",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "BRIDGE_STATE_UNSPECIFIED" => Some(Self::Unspecified),
+            "BRIDGE_STATE_IDLE" => Some(Self::Idle),
+            "BRIDGE_STATE_ACTIVE" => Some(Self::Active),
+            _ => None,
+        }
+    }
+}
 /// Generated client implementations.
 pub mod rewire_service_client {
     #![allow(
