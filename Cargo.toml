@@ -10,8 +10,8 @@ repository = "https://github.com/rewire-run/rewire-extras"
 
 [dependencies]
 prost = "0.14"
-re_sdk_types = "0.30"
-re_types_core = "0.30"
+re_sdk_types = "0.31"
+re_types_core = "0.31"
 tonic = { version = "0.14", optional = true }
 tonic-prost = { version = "0.14", optional = true }
 
